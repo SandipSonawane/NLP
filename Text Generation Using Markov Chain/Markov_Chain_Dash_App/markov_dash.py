@@ -31,7 +31,7 @@ app.layout = html.Div([
             html.Div(className="btn btn-secondary btn-lg", children=[
                 html.H6('Select Chapter to see text')]),
             dcc.Dropdown(id='pick_chapter',
-                         options=[{'label': i, 'value': i} for i in chapters], value='Amazon')
+                         options=[{'label': i, 'value': i} for i in chapters], value='')
         ]),
 
         # job category dropdown
@@ -51,14 +51,16 @@ app.layout = html.Div([
     ]),
 
     html.Div(className='text_area', children=[
-        html.Div(id='chapter-text', children=[
+        html.Div(children=[
             dcc.Textarea(
+                id='chapter-text',
                 value='Text from the selected chapter will appear here.',
                 style={'width': '99%', 'height': 600},
             )
         ]),
-        html.Div(id='generated-text', children=[
+        html.Div(children=[
             dcc.Textarea(
+                id='generated-text',
                 value='Text generated using Markov Chain with given input will appear here.',
                 style={'width': '99%', 'height': 600},
             )
@@ -67,6 +69,14 @@ app.layout = html.Div([
 
 ])
 
+
+# show chapter text based on input
+@app.callback(Output('chapter-text', 'value'),
+              [Input('pick_chapter', 'value')])
+def update_chapter_text(chapter):
+    chapter_text_list = open(os.path.join(os.getcwd(), f'Data\\sherlock\\{chapter}')).readlines()
+    chapter_text = ''.join(chapter_text_list)
+    return chapter_text
 
 
 app.run_server()
