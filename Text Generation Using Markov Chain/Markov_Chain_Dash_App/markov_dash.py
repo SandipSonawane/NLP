@@ -37,15 +37,15 @@ app.layout = html.Div([
             html.Div(className="btn btn-secondary btn-lg", children=[
                 html.H6('Write two words')]),
             dcc.Input(id='choose_words',
-                      value='the adventure '),
+                      value='it was '),
         ]),
 
-        # Submit Button
-        html.Div(id='Submit', children=[
-            html.Div(className="btn btn-primary", children=[
-                html.H6('Submit')
-            ])
-        ])
+        # # Submit Button
+        # html.Div(id='Submit', children=[
+        #     html.Div(className="btn btn-primary", children=[
+        #         html.H6('Submit')
+        #     ])
+        # ])
     ]),
 
     html.Div(className='text_area', children=[
@@ -98,7 +98,7 @@ with open(os.path.join(os.getcwd(), f'Data\\markov_model_JSON.txt')) as json_fil
     markov_model_json_to_dict = json.load(json_file)
     markov_model_json_to_dict = json.loads(markov_model_json_to_dict)
 
-        
+
 @app.callback(Output('generated-text', 'value'),
               [Input('choose_words', 'value')])
 def update_chapter_text(words):
@@ -107,7 +107,7 @@ def update_chapter_text(words):
 
         generated_text = ''
         for i in range(10):
-            generated_text += f's_{i}' + ': ' + generate_text(markov_model_json_to_dict, start=words, limit=10) + '\n \n'
+            generated_text += f's_{i+1}' + ': ' + generate_text(markov_model_json_to_dict, start=words, limit=10) + '\n \n'
         return generated_text
 
 
